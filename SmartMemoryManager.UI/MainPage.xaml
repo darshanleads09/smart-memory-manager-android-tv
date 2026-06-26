@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:SmartMemoryManager.UI.ViewModels"
+             x:Class="SmartMemoryManager.UI.MainPage"
+             x:DataType="viewModels:DashboardViewModel">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#2563EB" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="28,14" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Focused">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#F59E0B" />
+                                <Setter Property="TextColor" Value="#111827" />
+                                <Setter Property="Scale" Value="1.04" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="Opacity" Value="0.45" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid BackgroundColor="#0B1220" Padding="36" RowDefinitions="Auto,*,Auto">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="24">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Smart Memory Manager"
+                       FontSize="34"
+                       FontAttributes="Bold"
+                       TextColor="White" />
+                <Label Text="{Binding DeviceName}"
+                       FontSize="20"
+                       TextColor="#A7B0C0" />
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                <Button Text="Scan Device" Command="{Binding ScanCommand}" />
+                <Button Text="Optimize Now" Command="{Binding OptimizeCommand}" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <Grid Grid.Row="1" ColumnDefinitions="2*,*" ColumnSpacing="28" Margin="0,32,0,24">
+            <CollectionView ItemsSource="{Binding Metrics}" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     HorizontalItemSpacing="18"
+                                     VerticalItemSpacing="18" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:MetricCardViewModel">
+                        <Border BackgroundColor="#111827"
+                                Stroke="#374151"
+                                StrokeThickness="2"
+                                Padding="22"
+                                StrokeShape="RoundRectangle 8"
+                                HeightRequest="160">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="{Binding Title}" FontSize="18" TextColor="#A7B0C0" />
+                                <Label Text="{Binding Value}"
+                                       FontSize="30"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding Detail}"
+                                       FontSize="18"
+                                       TextColor="#D1D5DB"
+                                       LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Grid.Column="1" RowDefinitions="*,*" RowSpacing="18">
+                <Border BackgroundColor="#111827"
+                        Stroke="#374151"
+                        StrokeThickness="2"
+                        Padding="22"
+                        StrokeShape="RoundRectangle 8">
+                    <Grid RowDefinitions="Auto,*">
+                        <Label Text="Recommendations"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        <CollectionView Grid.Row="1"
+                                        ItemsSource="{Binding Recommendations}"
+                                        Margin="0,18,0,0"
+                                        SelectionMode="Single">
+                        <CollectionView.EmptyView>
+                            <Label Text="No recommendations"
+                                   FontSize="20"
+                                   TextColor="#A7B0C0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:RecommendationViewModel">
+                                <Border BackgroundColor="#172033"
+                                        Stroke="#475569"
+                                        StrokeThickness="1"
+                                        Padding="16"
+                                        Margin="0,0,0,12"
+                                        StrokeShape="RoundRectangle 8">
+                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="White" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Priority}"
+                                               FontSize="18"
+                                               TextColor="#F59E0B" />
+                                        <Label Grid.Row="1"
+                                               Grid.ColumnSpan="2"
+                                               Text="{Binding Description}"
+                                               FontSize="18"
+                                               TextColor="#D1D5DB"
+                                               Margin="0,8,0,0" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1"
+                        BackgroundColor="#111827"
+                        Stroke="#374151"
+                        StrokeThickness="2"
+                        Padding="22"
+                        StrokeShape="RoundRectangle 8">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="8">
+                        <Label Text="Maintenance"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="White" />
+                        <Label Grid.Row="1" Text="{Binding DailyMaintenance}" FontSize="18" TextColor="#D1D5DB" />
+                        <Label Grid.Row="2" Text="{Binding WeeklyMaintenance}" FontSize="18" TextColor="#D1D5DB" />
+                        <Label Grid.Row="3" Text="{Binding MonthlyMaintenance}" FontSize="18" TextColor="#D1D5DB" />
+                        <VerticalStackLayout Grid.Row="4" Spacing="4" VerticalOptions="End">
+                            <Label Text="{Binding StorageSummary}" FontSize="18" TextColor="#A7B0C0" />
+                            <Label Text="{Binding MemorySummary}" FontSize="18" TextColor="#A7B0C0" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2" ColumnDefinitions="2*,3*,Auto" ColumnSpacing="24">
+            <Label Text="{Binding Status}" FontSize="18" TextColor="#D1D5DB" />
+            <CollectionView Grid.Column="1"
+                            ItemsSource="{Binding TopApps}"
+                            HeightRequest="92"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:AppUsageViewModel">
+                        <Border BackgroundColor="#172033"
+                                Stroke="#374151"
+                                StrokeThickness="1"
+                                Padding="14"
+                                WidthRequest="220"
+                                StrokeShape="RoundRectangle 8">
+                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding Name}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Grid.Column="1" Text="{Binding Size}" FontSize="16" TextColor="#F59E0B" />
+                                <Label Grid.Row="1"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding MigrationStatus}"
+                                       FontSize="16"
+                                       TextColor="#A7B0C0" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label Grid.Column="2" Text="{Binding LastScan}" FontSize="18" TextColor="#A7B0C0" />
+        </Grid>
+    </Grid>
+</ContentPage>

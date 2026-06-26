@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <MauiCorePackageVersion>9.0.111</MauiCorePackageVersion>
+    <MauiMinimumSupportedTargetFrameworkVersion>9.0</MauiMinimumSupportedTargetFrameworkVersion>
+    <MauiMinimumSupportedWorkloadVersion>9.0.0</MauiMinimumSupportedWorkloadVersion>
+  </PropertyGroup>
+
+  <!-- .NET MAUI version for telemetry: this is the installed nuget in use, not the workload version -->
+  <ItemGroup>
+    <ProjectCapability Include="Microsoft.Maui.Core.Version.9.0.111" />
+  </ItemGroup>
+
+</Project>

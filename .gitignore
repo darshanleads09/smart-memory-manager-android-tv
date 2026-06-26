@@ -55,3 +55,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Project-specific local artifacts
+.vs/
+TestResults/
+*.user
+*.suo
+*.cache
+*.log
